@@ -14,7 +14,7 @@ public class Main {
             dp[i] = Integer.MIN_VALUE;
         }
 
-        dp[0] = arr[0];
+        dp[0] = 1;
     }
 
     public static void main(String[] args) throws Exception {
@@ -42,7 +42,6 @@ public class Main {
         for(int i = 0; i < N; i++){
             maxLen = Math.max(maxLen, dp[i]);
         }
-
 
 
         System.out.println(maxLen);
