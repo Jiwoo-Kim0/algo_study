@@ -4,44 +4,54 @@ import java.io.*;
 public class Main {
     static int N;
     static int[] arr;
-    static int[] dp;
-    static int maxLen;
+    static int[] lis;
 
-    public static void initialize(){
-        dp = new int[N];
+    // lower bound:
+    // lis[0 ~ len-1] 범위에서
+    // 처음으로 target 이상이 나오는 위치 반환
+    public static int lowerBound(int len, int target) {
+        int left = 0;
+        int right = len - 1;
 
-        for(int i = 0; i < N; i++){
-            dp[i] = 1;
-        }
-    }
+        while (left < right) {
+            int mid = (left + right) / 2;
 
-    public static void main(String[] args) throws Exception {
-        // Please write your code here.
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        N = Integer.parseInt(br.readLine().trim());
-        arr = new int[N];
-        maxLen = 1;
-
-        StringTokenizer st = new StringTokenizer(br.readLine().trim());
-        for(int i = 0; i < N; i++){
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
-
-        initialize();
-
-        for(int i = 1; i < N; i++){
-            for(int j = 0; j < i; j++){
-                if(arr[i] > arr[j]){
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
+            if (lis[mid] >= target) {
+                right = mid;
+            } else {
+                left = mid + 1;
             }
         }
 
-        for(int i = 0; i < N; i++){
-            maxLen = Math.max(maxLen, dp[i]);
+        return left;
+    }
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        N = Integer.parseInt(br.readLine().trim());
+        arr = new int[N];
+        lis = new int[N];
+
+        StringTokenizer st = new StringTokenizer(br.readLine().trim());
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
 
+        int len = 0;
 
-        System.out.println(maxLen);
+        for (int i = 0; i < N; i++) {
+            int x = arr[i];
+
+            if (len == 0 || x > lis[len - 1]) {
+                lis[len] = x;
+                len++;
+            } else {
+                int idx = lowerBound(len, x);
+                lis[idx] = x;
+            }
+        }
+
+        System.out.println(len);
     }
 }
