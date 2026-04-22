@@ -11,10 +11,8 @@ public class Main {
         dp = new int[N];
 
         for(int i = 0; i < N; i++){
-            dp[i] = Integer.MIN_VALUE;
+            dp[i] = 1;
         }
-
-        dp[0] = 1;
     }
 
     public static void main(String[] args) throws Exception {
